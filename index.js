@@ -6,14 +6,9 @@ const log = console.log;
  
 app.get('/citys', async (req, res) => {
   const {title} = req.query;
-  if (title) { 
-    const citys = await getCitys(title);
-    res.send(citys)
-  } else {
-    const citys = await getCitys();
-    res.send(citys)
-  }
-})
+  const citys = await getCitys(title ?? false);
+  res.send(citys);
+});
  
 
 app.listen(port, () => {
