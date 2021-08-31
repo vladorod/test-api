@@ -3,8 +3,9 @@ const faker = require('faker/locale/ru');
 const { random } = require('faker');
 const dir = 'db/';
 
-const CITYS = "CITYS";
-
+const CITIES = "CITIES";
+const CALCSTUFF = "CALCSTUFF";
+  
 const randomNumber = (max) => Math.floor(Math.random() * max);
 
 // MODELS
@@ -27,7 +28,7 @@ const city = (obj) => {
 };
 
 // METHODS
-const getRandomCitysArray = (count = 10) => {
+const getRandomCitiesArray = (count = 10) => {
 
     const arr = [];
 
@@ -38,13 +39,13 @@ const getRandomCitysArray = (count = 10) => {
     return arr;
 }
 
-const json = getRandomCitysArray();
+const json = getRandomCitiesArray();
 
 // DB METHODS
-const updateCitys = () => fs.writeFileSync(dir + `${CITYS}.json`, JSON.stringify(json));
+const updateCities = () => fs.writeFileSync(dir + `${CITIES}.json`, JSON.stringify(json));
 
-const getCitys = (name = "") => new Promise((res, rej) => {
-    fs.readFile(dir + `${CITYS}.json`,{encoding: "utf-8"}, (err,data) => {
+const getCities = (name = "") => new Promise((res, rej) => {
+    fs.readFile(dir + `${CITIES}.json`,{encoding: "utf-8"}, (err,data) => {
         if (!err) {
              const jsObj = JSON.parse(data);
              const reg = new RegExp("^" + name, "ig");
@@ -56,8 +57,19 @@ const getCitys = (name = "") => new Promise((res, rej) => {
         }
     });
 });
+const getCalc = (name = "") => new Promise((res, rej) => {
+    fs.readFile(dir + `${CALCSTUFF}.json`,{encoding: "utf-8"}, (err,data) => {
+        if (!err) {
+             const jsObj = JSON.parse(data);
+             res(jsObj ?? []) ;
+        } else {
+            rej(err)
+        }
+    });
+});
 
 module.exports = {
-    updateCitys, 
-    getCitys
+    updateCities, 
+    getCities, 
+    getCalc
 } 
